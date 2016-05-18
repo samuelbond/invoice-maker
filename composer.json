@@ -1,0 +1,15 @@
+{
+    "name": "platitech/invoice-maker",
+    "description": "A package that helps with the creation and management of invoice",
+    "authors": [
+        {
+            "name": "Samuel A",
+            "email": "samuelizuchi@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "h4cc/wkhtmltopdf-amd64": "0.12.x",
+        "barryvdh/laravel-snappy": "^0.3.0"
+    }
+}
