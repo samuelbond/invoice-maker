@@ -9,7 +9,6 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "barryvdh/laravel-snappy": "^0.3.0"
     }
 }
