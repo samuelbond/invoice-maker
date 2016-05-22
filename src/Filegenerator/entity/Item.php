@@ -29,6 +29,10 @@ class Item
         $this->amount = $amount;
     }
 
+    public function getTotalAmount(){
+        return ($this->quantity*$this->amount);
+    }
+
     /**
      * @return string|string
      */

@@ -14,6 +14,8 @@ class BodyDescription
 {
     private $salutation;
     private $description;
+    private $notes;
+    private $signerName;
     private $comments;
 
     /**
@@ -74,6 +76,38 @@ class BodyDescription
     public function setComments($comments)
     {
         $this->comments = $comments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @param mixed $notes
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSignerName()
+    {
+        return $this->signerName;
+    }
+
+    /**
+     * @param mixed $signerName
+     */
+    public function setSignerName($signerName)
+    {
+        $this->signerName = $signerName;
     }
 
 

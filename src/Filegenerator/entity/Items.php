@@ -28,6 +28,23 @@ class Items
         $this->vat = $vat;
     }
 
+    public function getGrossAmount(){
+        $amount = $this->getNetAmount();
+        return (($this->vat/100) *$amount) + $amount;
+    }
+
+    public function getNetAmount(){
+        $amount = 0;
+        foreach($this->items as $item){
+            $amount = $amount+$item->getTotalAmount();
+        }
+        return $amount;
+    }
+
+    public function getVATAmount(){
+        return ($this->vat/100) *$this->getNetAmount();
+    }
+
     /**
      * @return array
      */

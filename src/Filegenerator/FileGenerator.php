@@ -11,6 +11,9 @@
 namespace Filegenerator;
 
 
+use Filegenerator\entity\Invoice;
+use Knp\Snappy\Pdf;
+
 class FileGenerator
 {
     private $outputDir;
@@ -20,16 +23,12 @@ class FileGenerator
     private $format;
 
     /**
-     * FileGenerator constructor.
-     * @param $outputDir
-     * @param $fileName
      * @param $format
      */
-    public function __construct($outputDir, $fileName, $format)
+    public function __construct($format)
     {
-        $this->outputDir = $outputDir;
-        $this->fileName = $fileName;
         $this->format = $this->isFormat($format) ?? $format;
+        $this->defaults();
     }
 
     private function defaults(){
@@ -48,6 +47,12 @@ class FileGenerator
         throw new \InvalidArgumentException("expected pdf, txt found ".$format);
     }
 
+
+    public function generateInvoiceFile(Invoice $invoice){
+        $snappy = new Pdf("/usr/local/bin/wkhtmltopdf");
+        $html = new HtmlGenerator($invoice);
+        return $snappy->getOutput($html->generateHtmlInvoice());
+    }
 
 
 

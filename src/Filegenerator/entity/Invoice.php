@@ -16,6 +16,8 @@ class Invoice
     private $recipient;
     private $bodyDescription;
     private $items;
+    private $invoiceNumber;
+    private $invoiceDate;
 
     /**
      * Invoice constructor.
@@ -30,7 +32,13 @@ class Invoice
         $this->recipient = $recipient;
         $this->bodyDescription = $bodyDescription;
         $this->items = $items;
+        $this->invoiceNumber = $this->generateInvoiceNumber();
     }
+
+    private function generateInvoiceNumber(){
+        return "IN".time()."".date('Y');
+    }
+
 
     /**
      * @return Issuer
@@ -95,6 +103,31 @@ class Invoice
     {
         $this->items = $items;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getInvoiceNumber()
+    {
+        return $this->invoiceNumber;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInvoiceDate()
+    {
+        return $this->invoiceDate;
+    }
+
+    /**
+     * @param mixed $invoiceDate
+     */
+    public function setInvoiceDate($invoiceDate)
+    {
+        $this->invoiceDate = $invoiceDate;
+    }
+
 
 
 }
