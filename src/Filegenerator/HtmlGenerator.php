@@ -1,9 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bond
- * Date: 21/05/2016
- * Time: 10:49
+/*
+ * This file is part of the Invoice-maker package.
+ * (c) Samuel A <samuelizuchi@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Filegenerator;
@@ -14,6 +15,9 @@ use Filegenerator\entity\Invoice;
 class HtmlGenerator
 {
     private $invoice;
+    private $basePath;
+    private $storageDir;
+    private $generatedHtmlPath;
 
     /**
      * HtmlGenerator constructor.
@@ -22,27 +26,33 @@ class HtmlGenerator
     public function __construct(Invoice $invoice)
     {
         $this->invoice = $invoice;
+        $this->basePath = dirname(__FILE__).DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR;
+        $this->storageDir = $this->basePath.'generated_htmls'.DIRECTORY_SEPARATOR;
+    }
+
+    private function createStorageDirectory(){
+        if(!file_exists($this->storageDir)){
+            mkdir($this->storageDir);
+        }
     }
 
     public function generateHtmlInvoice(){
-        $file1 = dirname(__FILE__).DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'invoice.html';
-        $mainFileName = time().'-invoice.html';
-        $file2 = dirname(__FILE__).DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'generated_htmls'.DIRECTORY_SEPARATOR.$mainFileName;
-        $file1Contents = file_get_contents($file1);
+        $this->createStorageDirectory();
+        $invoiceTemplate = $this->basePath.'invoice.html';
+        $this->generatedHtmlPath = $this->storageDir.time().'-invoice.html';
+        $templateContent = file_get_contents($invoiceTemplate);
         $startDelimiter = "StartInject";
         $endDelimiter = "EndInject";
-        $startPosition = strpos($file1Contents, $startDelimiter);
-        $endPosition = strpos($file1Contents, $endDelimiter);
+        $startPosition = strpos($templateContent, $startDelimiter);
+        $endPosition = strpos($templateContent, $endDelimiter);
         if($startPosition === false){
             throw new \UnexpectedValueException("Could not find html start or end delimiter");
         }
-        $firstHalf = substr($file1Contents, 0, $startPosition);
-        $secondHalf = substr($file1Contents, $endPosition);
+        $firstHalf = substr($templateContent, 0, ($startPosition-4));
+        $secondHalf = substr($templateContent, ($endPosition+12));
         $content = $firstHalf.$this->getHtmlToUse().$secondHalf;
-        $handle = fopen($file2, "w+");
-        fwrite($handle, $content);
-        fclose($handle);
-        return $file2;
+        file_put_contents($this->generatedHtmlPath, $content);
+        return $this->generatedHtmlPath;
     }
 
 
@@ -133,6 +143,49 @@ class HtmlGenerator
                             <th class="text-right  pd-10 "><span class="vd_green font-sm font-normal">'.$this->invoice->getItems()->getCurrency().' '.$this->invoice->getItems()->getGrossAmount().'</span></th>';
 
         return $html;
-        
+
     }
+
+    /**
+     * @return string
+     */
+    public function getBasePath()
+    {
+        return $this->basePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStorageDir()
+    {
+        return $this->storageDir;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGeneratedHtmlPath()
+    {
+        return $this->generatedHtmlPath;
+    }
+
+    /**
+     * @param string $basePath
+     */
+    public function setBasePath($basePath)
+    {
+        $this->basePath = $basePath;
+    }
+
+    /**
+     * @param string $storageDir
+     */
+    public function setStorageDir($storageDir)
+    {
+        $this->storageDir = $storageDir;
+    }
+
+
+
 }

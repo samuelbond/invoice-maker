@@ -16,8 +16,6 @@ use Knp\Snappy\Pdf;
 
 class FileGenerator
 {
-    private $outputDir;
-    private $fileName;
     const PDF = 'pdf';
     const PLAIN_TXT = 'txt';
     private $format;
@@ -27,21 +25,15 @@ class FileGenerator
      */
     public function __construct($format)
     {
-        $this->format = $this->isFormat($format) ?? $format;
-        $this->defaults();
-    }
-
-    private function defaults(){
-        $this->outputDir = "/tmp/";
-        $this->fileName = random_bytes(10);
+        $this->format = $this->isFormatSupported($format) ?? $format;
     }
 
     /**
      * @param $format
      * @return null
      */
-    private function isFormat($format){
-        if($format == self::PDF && $format == self::PLAIN_TXT){
+    private function isFormatSupported($format){
+        if($format == self::PDF || $format == self::PLAIN_TXT){
             return null;
         }
         throw new \InvalidArgumentException("expected pdf, txt found ".$format);
@@ -49,11 +41,17 @@ class FileGenerator
 
 
     public function generateInvoiceFile(Invoice $invoice){
+       if($this->format == self::PDF){
+           return $this->generatePdfInvoice($invoice);
+       }
+
+        return null;
+    }
+
+    private function generatePdfInvoice(Invoice $invoice){
         $snappy = new Pdf("/usr/local/bin/wkhtmltopdf");
         $html = new HtmlGenerator($invoice);
         return $snappy->getOutput($html->generateHtmlInvoice());
     }
-
-
 
 }

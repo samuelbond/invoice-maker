@@ -15,6 +15,7 @@ class Items
     private $items;
     private $currency;
     private $vat;
+    private $discount = 0;
 
     /**
      * @param array $items
@@ -28,6 +29,22 @@ class Items
         $this->vat = $vat;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
+    }
+
+    /**
+     * @param mixed $discount
+     */
+    public function setDiscount($discount)
+    {
+        $this->discount = $discount;
+    }
+
     public function getGrossAmount(){
         $amount = $this->getNetAmount();
         return (($this->vat/100) *$amount) + $amount;
@@ -38,7 +55,7 @@ class Items
         foreach($this->items as $item){
             $amount = $amount+$item->getTotalAmount();
         }
-        return $amount;
+        return ($amount - $this->discount);
     }
 
     public function getVATAmount(){
