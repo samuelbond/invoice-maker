@@ -3,7 +3,7 @@ export VENDOR_DIR="$(pwd)/vendor/autoload.php"
 export BASE_TEST_CASE="$(pwd)/src/tests/InvoiceMakerTestCase.php"
 ROOT_DIR=$(pwd)
 printf "Starting UnitTest\n"
-php vendor/phpunit/phpunit/phpunit --bootstrap vendor/autoload.php --colors=always  src/tests/platitech/invoicemaker
+php vendor/phpunit/phpunit/phpunit --bootstrap vendor/autoload.php --colors=always --coverage-html ./  src/tests/platitech/invoicemaker
 printf "End UnitTest\n"
 printf "Starting Package Test\n"
 cd src/package-test/behat/invoicemaker && $ROOT_DIR/bin/behat
