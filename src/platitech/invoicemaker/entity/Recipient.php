@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Filegenerator\entity;
+namespace Platitech\InvoiceMaker\entity;
 
 
-class Issuer
+class Recipient
 {
     private $companyName;
     private $telephone;
@@ -153,7 +153,5 @@ class Issuer
     {
         $this->country = $country;
     }
-
-
 
 }

@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Filegenerator;
+namespace Platitech\InvoiceMaker\Filegenerator;
 
 
-use Filegenerator\entity\Invoice;
+use Platitech\InvoiceMaker\entity\Invoice;
 
 class HtmlGenerator
 {
@@ -38,7 +38,7 @@ class HtmlGenerator
 
     public function generateHtmlInvoice(){
         $this->createStorageDirectory();
-        $invoiceTemplate = $this->basePath.'invoice.html';
+        $invoiceTemplate = $this->basePath.'invoice_template.html';
         $this->generatedHtmlPath = $this->storageDir.time().'-invoice.html';
         $templateContent = file_get_contents($invoiceTemplate);
         $startDelimiter = "StartInject";

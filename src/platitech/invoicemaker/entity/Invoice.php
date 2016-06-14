@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Filegenerator\entity;
+namespace Platitech\InvoiceMaker\entity;
 
 
 class Invoice
@@ -128,6 +128,15 @@ class Invoice
         $this->invoiceDate = $invoiceDate;
     }
 
+    public function __toString()
+    {
+
+        return "Company name: ".$this->issuer->getCompanyName().
+               "Company address: ".$this->issuer->getAddress().
+               "Company Postcode: ".$this->issuer->getPostCode().
+               "Company Postcode: ".$this->issuer->getCity()
+            ;
+    }
 
 
 }

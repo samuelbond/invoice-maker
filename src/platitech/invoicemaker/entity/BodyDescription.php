@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Filegenerator\entity;
+namespace Platitech\InvoiceMaker\entity;
 
 
 class BodyDescription

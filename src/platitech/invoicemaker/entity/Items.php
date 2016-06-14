@@ -7,15 +7,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Filegenerator\entity;
+namespace Platitech\InvoiceMaker\entity;
 
 
 class Items
 {
     private $items;
     private $currency;
-    private $vat;
-    private $discount = 0;
+    private $vatRate;
+    private $discountAmount = 0;
 
     /**
      * @param array $items
@@ -26,28 +26,28 @@ class Items
     {
         $this->items = $items;
         $this->currency = $currency;
-        $this->vat = $vat;
+        $this->vatRate = $vat;
     }
 
     /**
      * @return mixed
      */
-    public function getDiscount()
+    public function getDiscountAmount()
     {
-        return $this->discount;
+        return $this->discountAmount;
     }
 
     /**
-     * @param mixed $discount
+     * @param mixed $discountAmount
      */
-    public function setDiscount($discount)
+    public function setDiscountAmount($discountAmount)
     {
-        $this->discount = $discount;
+        $this->discountAmount = $discountAmount;
     }
 
     public function getGrossAmount(){
         $amount = $this->getNetAmount();
-        return (($this->vat/100) *$amount) + $amount;
+        return (($this->vatRate/100) *$amount) + $amount;
     }
 
     public function getNetAmount(){
@@ -55,11 +55,11 @@ class Items
         foreach($this->items as $item){
             $amount = $amount+$item->getTotalAmount();
         }
-        return ($amount - $this->discount);
+        return ($amount - $this->discountAmount);
     }
 
     public function getVATAmount(){
-        return ($this->vat/100) *$this->getNetAmount();
+        return ($this->vatRate/100) *$this->getNetAmount();
     }
 
     /**
@@ -97,17 +97,17 @@ class Items
     /**
      * @return int|int
      */
-    public function getVat()
+    public function getVatRate()
     {
-        return $this->vat;
+        return $this->vatRate;
     }
 
     /**
-     * @param int|int $vat
+     * @param int|int $vatRate
      */
-    public function setVat($vat)
+    public function setVatRate($vatRate)
     {
-        $this->vat = $vat;
+        $this->vatRate = $vatRate;
     }
 
 

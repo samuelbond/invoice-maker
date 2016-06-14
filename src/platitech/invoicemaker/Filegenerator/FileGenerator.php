@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Filegenerator;
+namespace Platitech\InvoiceMaker\Filegenerator;
 
 
 use Filegenerator\entity\Invoice;
