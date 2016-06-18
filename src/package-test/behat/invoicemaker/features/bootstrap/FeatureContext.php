@@ -37,6 +37,10 @@ class FeatureContext extends InvoiceMakerTestCase implements Context, SnippetAcc
      * @var Invoice
      */
     private $invoice;
+    /**
+     * @var \Platitech\InvoiceMaker\entity\BodyDescription
+     */
+    private $bodyDescription;
     const INV_MSG = "Nice doing business";
     const MSG_SALUTATION = "Hello";
     /**
@@ -48,6 +52,7 @@ class FeatureContext extends InvoiceMakerTestCase implements Context, SnippetAcc
      */
     public function __construct()
     {
+        $this->bodyDescription = new \Platitech\InvoiceMaker\entity\BodyDescription(self::MSG_SALUTATION, self::INV_MSG);
     }
 
     /**
@@ -149,7 +154,7 @@ class FeatureContext extends InvoiceMakerTestCase implements Context, SnippetAcc
     {
         $this->item->setAmount($price);
         $this->items = new Items(array(), $currency, 0);
-        $this->invoice = new Invoice(null, null, null, null);
+        $this->invoice = new Invoice($this->issuer, $this->recipient, $this->bodyDescription, $this->items);
         $this->invoice->setInvoiceDate($invoiceDate);
     }
 
@@ -170,7 +175,7 @@ class FeatureContext extends InvoiceMakerTestCase implements Context, SnippetAcc
         $this->items->setItems(array($this->item));
         $this->invoice->setIssuer($this->issuer);
         $this->invoice->setRecipient($this->recipient);
-        $this->invoice->setBodyDescription(new \Platitech\InvoiceMaker\entity\BodyDescription(self::MSG_SALUTATION, self::INV_MSG));
+        $this->invoice->setBodyDescription($this->bodyDescription);
         $this->invoice->setItems($this->items);
     }
 
@@ -179,6 +184,8 @@ class FeatureContext extends InvoiceMakerTestCase implements Context, SnippetAcc
      */
     public function theInvoiceShouldContainTheCorrectDetails()
     {
-//        $this->expects()
+        $this->expects($this->item->getDescription(), $this->invoice->getItems()->getItems()[0]->getDescription());
+        $this->expects($this->item->getAmount(), $this->invoice->getItems()->getItems()[0]->getAmount());
+        $this->expects($this->item->getQuantity(), $this->invoice->getItems()->getItems()[0]->getQuantity());
     }
 }
