@@ -11,8 +11,8 @@
 namespace Platitech\InvoiceMaker\Filegenerator;
 
 
-use Filegenerator\entity\Invoice;
 use Knp\Snappy\Pdf;
+use Platitech\InvoiceMaker\entity\Invoice;
 
 class FileGenerator
 {
